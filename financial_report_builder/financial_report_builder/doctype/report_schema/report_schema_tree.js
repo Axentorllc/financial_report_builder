@@ -11,8 +11,8 @@ frappe.treeview_settings["Report Schema"] = {
 		},
 	],
 	breadcrumb: "Accounting",
-	// root_label: "All Report Schema",
-	// get_tree_root: true,
+	root_label: "All Report Schema",
+	get_tree_root: true,
 	menu_items: [
 		{
 			label: __("New Report Schema"),

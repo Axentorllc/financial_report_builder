@@ -1,20 +1,24 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:label",
  "creation": "2024-12-26 14:52:59.158246",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_5r8y",
   "is_group",
+  "label",
   "report",
-  "parent_report_schema",
   "report_source",
+  "parent_report_schema",
   "column_break_eoyg",
   "company",
   "lft",
   "rgt",
-  "old_parent"
+  "old_parent",
+  "section_break_gmyh",
+  "accounts"
  ],
  "fields": [
   {
@@ -78,15 +82,34 @@
    "fieldtype": "Data",
    "label": "Report",
    "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_gmyh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "accounts",
+   "fieldtype": "Table",
+   "label": "Accounts",
+   "options": "Report Schema Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2024-12-29 13:24:13.345271",
+ "modified": "2024-12-30 13:29:22.268574",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
+ "naming_rule": "By fieldname",
  "nsm_parent_field": "parent_report_schema",
  "owner": "Administrator",
  "permissions": [
