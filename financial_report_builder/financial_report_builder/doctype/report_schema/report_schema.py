@@ -10,7 +10,7 @@ class ReportSchema(NestedSet):
 
 	def validate(self):
 		if not self.parent_report_schema:
-			root = get_root_of(self.doctype)
+			root = get_root_of("Report Schema")
 			if root:
 				self.parent_report_schema = root
 
@@ -20,14 +20,14 @@ def get_children(doctype, parent=None, company=None, is_root=False):
 	filters = {}
 
 	if company == parent:
-		filters["name"] = get_root_of(doctype)
+		filters["name"] = get_root_of("Report Schema")
 	elif company:
 		filters["parent_report_schema"] = parent
 		filters["company"] = company
 	else:
 		filters["parent_report_schema"] = parent
 
-	return frappe.get_all(doctype, fields=fields, filters=filters, order_by="name")
+	return frappe.get_all("Report Schema", fields=fields, filters=filters, order_by="name")
 
 @frappe.whitelist()
 def add_node():
