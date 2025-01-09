@@ -1,22 +1,21 @@
 import frappe
 
-def get_node():
+def get_nodes():
     
     nodes = get_schema_children("Es-Bas Report Schema")
 
     node_data = []
-
+    report_source_list=[]
+    
     for node in nodes:
         doc = frappe.get_doc('Report Schema', node)
         report_source = doc.report_source
-
-        # Collect accounts from the current schema
-        account_list = [account.account for account in doc.accounts]
+        report_source_list.append(report_source)
 
         # Append the account list and report source as a tuple
-        node_data.append((account_list, report_source,doc.name))
+        node_data.append(doc)
 
-    return node_data
+    return node_data , report_source_list
     
 def get_schema_children(parent_name):
    
