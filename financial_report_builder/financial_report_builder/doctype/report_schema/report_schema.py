@@ -14,6 +14,12 @@ class ReportSchema(NestedSet):
 			if root:
 				self.parent_report_schema = root
 
+		# validate to force the report to be set based on the parent
+		if self.parent_report_schema:
+			report = frappe.db.get_value("Report Schema", self.parent_report_schema, "report")
+			if report is not None:
+				self.report = report
+
 @frappe.whitelist()
 def get_children(doctype, parent=None, company=None, is_root=False):
 	fields = ["name as value", "is_group as expandable"]
@@ -38,4 +44,10 @@ def add_node():
 
 	if args.parent_report_schema == args.company:
 		args.parent_report_schema = None
+
+	# validate to force the report to be set based on the parent
+	if args.parent and not args.get("is_root"):
+		if report := frappe.db.get_value("Report Schema", args.parent_report_schema, "report"):
+			args["report"] = report
+
 	frappe.get_doc(args).insert()
