@@ -38,3 +38,34 @@ def parse_formula(formula: str) -> list:
     rows = re.findall(pattern, formula)
 
     return rows
+
+
+
+def get_report_executions(data_dict):
+    report_executions = {}
+    financial_reports = ['Profit and Loss Statement', 'Balance Sheet','Mapped Cash Flow' ]
+
+    for report_source in set(financial_reports):
+        try:
+            execute_function = frappe.get_doc('Report', report_source)
+            columns, res_data = execute_function.get_data(data_dict)
+
+            report_executions[report_source] = res_data
+        except Exception as e:
+            print(f"Error fetching or executing report {report_source}: {e}")
+    
+    return report_executions
+
+def execute_report(report_source,data_dict,report_executions):
+
+    if report_source not in report_executions:
+        try:
+            execute_function = frappe.get_doc('Report', report_source)
+            columns, res_data = execute_function.get_data(data_dict)
+
+            report_executions[report_source] = res_data
+        except Exception as e:
+            print(f"Error fetching or executing report {report_source}: {e}")
+    
+
+    
