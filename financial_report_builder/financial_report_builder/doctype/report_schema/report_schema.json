@@ -17,11 +17,9 @@
   "lft",
   "rgt",
   "old_parent",
+  "row_index",
   "section_break_gmyh",
-  "accounts",
-  "section_break_jbrz",
-  "row_based_on_formula",
-  "formula"
+  "accounts"
  ],
  "fields": [
   {
@@ -81,11 +79,9 @@
   },
   {
    "allow_in_quick_entry": 1,
-   "description": "The report that you will build...",
    "fieldname": "report",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Report",
-   "options": "Report",
    "reqd": 1
   },
   {
@@ -107,28 +103,15 @@
    "options": "Report Schema Account"
   },
   {
-   "fieldname": "section_break_jbrz",
-   "fieldtype": "Section Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "row_based_on_formula",
-   "fieldtype": "Check",
-   "label": "Row based on formula"
-  },
-  {
-   "depends_on": "row_based_on_formula",
-   "description": "If the row label is 'Delivery Costs' write it as an uppercase format with underscores for each space, like 'DELIVERY_COSTS'<br>ex: DELIVERY_COSTS + MANUFACTURING_COSTS",
-   "fieldname": "formula",
-   "fieldtype": "Code",
-   "label": "Formula",
-   "options": "PythonExpression"
+   "fieldname": "row_index",
+   "fieldtype": "Data",
+   "label": "Row Index"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-01-09 15:42:43.528034",
+ "modified": "2025-01-12 12:18:06.187627",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
