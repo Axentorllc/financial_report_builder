@@ -19,7 +19,13 @@
   "old_parent",
   "row_index",
   "section_break_gmyh",
-  "accounts"
+  "accounts",
+  "section_break_jbrz",
+  "row_based_on_formula",
+  "formula",
+  "column_break_audc",
+  "use_custom_method",
+  "method"
  ],
  "fields": [
   {
@@ -106,12 +112,47 @@
    "fieldname": "row_index",
    "fieldtype": "Data",
    "label": "Row Index"
+  },
+  {
+   "fieldname": "section_break_jbrz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "row_based_on_formula",
+   "fieldtype": "Check",
+   "label": "Row based on formula"
+  },
+  {
+   "depends_on": "row_based_on_formula",
+   "description": "If the row label is 'Delivery Costs' write it as an uppercase format with underscores for each space, like 'DELIVERY_COSTS'<br>ex: DELIVERY_COSTS + MANUFACTURING_COSTS",
+   "fieldname": "formula",
+   "fieldtype": "Code",
+   "label": "Formula",
+   "options": "PythonExpression"
+  },
+  {
+   "fieldname": "column_break_audc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "use_custom_method",
+   "fieldtype": "Check",
+   "label": "Use custom method"
+  },
+  {
+   "depends_on": "eval:doc.use_custom_method",
+   "description": "ex: my_module.api.endpoint_name",
+   "fieldname": "method",
+   "fieldtype": "Data",
+   "label": "Method"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-01-12 12:18:06.187627",
+ "modified": "2025-01-12 15:08:06.313341",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
