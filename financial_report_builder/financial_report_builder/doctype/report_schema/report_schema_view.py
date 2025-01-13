@@ -4,14 +4,16 @@ def get_nodes():
     
     nodes = get_schema_children("Es-Bas Report Schema")
     node_data = []
+    report_sources=[]
 
     for node in nodes:
         doc = frappe.get_doc('Report Schema', node)
+        report_sources.append(doc.report_source)
         node_data.append(doc)
     
     node_data.sort(key=lambda x: x.row_index)
 
-    return node_data
+    return node_data ,set(report_sources)
     
 def get_schema_children(parent_name):
     parent_doc = frappe.get_doc('Report Schema', parent_name)
