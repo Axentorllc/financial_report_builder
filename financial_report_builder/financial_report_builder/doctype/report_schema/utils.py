@@ -41,11 +41,11 @@ def parse_formula(formula: str) -> list:
 
 
 
-def get_report_executions(data_dict):
+def get_report_executions(data_dict,report_sources):
     report_executions = {}
     financial_reports = ['Profit and Loss Statement', 'Balance Sheet','Mapped Cash Flow' ]
 
-    for report_source in set(financial_reports):
+    for report_source in report_sources:
         try:
             execute_function = frappe.get_doc('Report', report_source)
             columns, res_data = execute_function.get_data(data_dict)
