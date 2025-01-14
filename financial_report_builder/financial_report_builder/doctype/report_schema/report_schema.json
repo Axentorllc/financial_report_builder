@@ -110,7 +110,7 @@
   },
   {
    "fieldname": "row_index",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Row Index"
   },
   {
@@ -152,7 +152,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-01-12 15:08:06.313341",
+ "modified": "2025-01-14 17:24:01.573688",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
