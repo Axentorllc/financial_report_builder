@@ -8,7 +8,10 @@ def build_formula_based_row(data: list, formula: str) -> dict:
     eval_locals = get_eval_locals(data, rows)
     row_based_on_formula = frappe._dict()
     for key, local_data in eval_locals.items():
-        row_based_on_formula[key] = frappe.safe_eval(formula, None, local_data)
+        try:
+            row_based_on_formula[key] = frappe.safe_eval(formula, None, local_data)
+        except Exception as e:
+            frappe.log_error(f"Error evaluating formula", f"Formula: {formula}\nError: {str(e)} and local data = {local_data}")
     return row_based_on_formula
 
 
