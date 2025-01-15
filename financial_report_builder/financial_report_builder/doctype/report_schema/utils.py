@@ -8,7 +8,10 @@ def build_formula_based_row(data: list, formula: str) -> dict:
     eval_locals = get_eval_locals(data, rows)
     row_based_on_formula = frappe._dict()
     for key, local_data in eval_locals.items():
-        row_based_on_formula[key] = frappe.safe_eval(formula, None, local_data)
+        try:
+            row_based_on_formula[key] = frappe.safe_eval(formula, None, local_data)
+        except Exception as e:
+            frappe.log_error(f"Error evaluating formula", f"Formula: {formula}\nError: {str(e)} and local data = {local_data}")
     return row_based_on_formula
 
 
@@ -41,11 +44,11 @@ def parse_formula(formula: str) -> list:
 
 
 
-def get_report_executions(data_dict):
+def get_report_executions(data_dict,report_sources):
     report_executions = {}
     financial_reports = ['Profit and Loss Statement', 'Balance Sheet','Mapped Cash Flow' ]
 
-    for report_source in set(financial_reports):
+    for report_source in report_sources:
         try:
             execute_function = frappe.get_doc('Report', report_source)
             columns, res_data = execute_function.get_data(data_dict)
