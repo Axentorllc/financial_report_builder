@@ -127,7 +127,7 @@
   },
   {
    "depends_on": "row_based_on_formula",
-   "description": "If the row label is 'Delivery Costs' write it as an uppercase format with underscores for each space, like 'DELIVERY_COSTS'<br>ex: DELIVERY_COSTS + MANUFACTURING_COSTS",
+   "description": "If the row label is 'Delivery Costs' write it as an uppercase format with underscores for each space, like 'DELIVERY_COSTS'<br>ex: DELIVERY_COSTS + MANUFACTURING_COSTS<br>\n<div class=\"alert alert-warning\" role=\"alert\">\n  <strong>Note: </strong> \nThe rows in the formula must have a Row Index lower than the Row Index of the current document.\n</div>",
    "fieldname": "formula",
    "fieldtype": "Code",
    "label": "Formula",
@@ -154,7 +154,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-01-15 16:14:25.685343",
+ "modified": "2025-01-15 16:35:01.007101",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
