@@ -85,9 +85,11 @@
   },
   {
    "allow_in_quick_entry": 1,
+   "description": "the report that you will build...",
    "fieldname": "report",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Report",
+   "options": "Report",
    "reqd": 1
   },
   {
@@ -152,7 +154,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-01-14 17:24:01.573688",
+ "modified": "2025-01-15 16:14:25.685343",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
