@@ -89,8 +89,7 @@
    "fieldname": "report",
    "fieldtype": "Link",
    "label": "Report",
-   "options": "Report",
-   "reqd": 1
+   "options": "Report"
   },
   {
    "allow_in_quick_entry": 1,
@@ -154,7 +153,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-01-15 16:35:01.007101",
+ "modified": "2025-01-20 09:52:06.881318",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
