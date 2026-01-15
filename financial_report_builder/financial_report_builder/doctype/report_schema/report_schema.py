@@ -36,25 +36,34 @@ class ReportSchema(NestedSet):
             frappe.throw("Report is mandatory for non-root nodes")
 
     def validate_that_rows_in_formula_exists(self):
+        """
+        Validate that all rows referenced in formula actually exist in the schema.
+
+        NOTE: We no longer enforce that formula references have lower row_index.
+        The dependency graph will determine correct execution order automatically.
+        """
         self.formula = self.formula.upper()
         rows_used_in_formula = parse_formula(self.formula)
-        related_report_schema = [
-            frappe.scrub(rc).upper()
-            for rc in frappe.get_all(
-                "Report Schema",
-                pluck="name",
-                filters=[["report", "=", self.report], ["report", "is", "set"]],
-            )
-        ]
-        throw = False
-        throw_msg = ""
 
+        all_nodes = frappe.get_all(
+            "Report Schema",
+            filters=[["report", "=", self.report], ["report", "is", "set"]],
+            pluck="name"
+        )
+
+        # Convert to uppercase for case-insensitive comparison
+        available_rows = {frappe.scrub(node).upper() for node in all_nodes}
+
+        missing_rows = []
         for row in rows_used_in_formula:
-            if row not in related_report_schema:
-                throw = True
-                throw_msg += f"- Row {frappe.bold(row)} not in the report schema<br>"
+            if row not in available_rows:
+                missing_rows.append(row)
 
-        if throw:
+        if missing_rows:
+            throw_msg = ""
+            for row in missing_rows:
+                throw_msg += f"- Row {frappe.bold(row)} not found in report schema<br>"
+
             help_msg = "<hr><span class='text-muted'>Please add the missing rows to the report schema.</span>"
             frappe.throw(throw_msg + help_msg)
 

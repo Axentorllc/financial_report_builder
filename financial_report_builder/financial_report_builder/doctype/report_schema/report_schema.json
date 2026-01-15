@@ -20,6 +20,7 @@
   "old_parent",
   "row_index",
   "hide_from_report",
+  "show_only_node_header",
   "section_break_gmyh",
   "accounts",
   "section_break_jbrz",
@@ -128,7 +129,7 @@
   },
   {
    "depends_on": "row_based_on_formula",
-   "description": "If the row label is 'Delivery Costs' write it as an uppercase format with underscores for each space, like 'DELIVERY_COSTS'<br>ex: DELIVERY_COSTS + MANUFACTURING_COSTS<br>\n<div class=\"alert alert-warning\" role=\"alert\">\n  <strong>Note: </strong> \nThe rows in the formula must have a Row Index lower than the Row Index of the current document.\n</div>",
+   "description": "If the row label is 'Delivery Costs' write it as an uppercase format with underscores for each space, like 'DELIVERY_COSTS'<br>ex: DELIVERY_COSTS + MANUFACTURING_COSTS<br>\n<div class=\"alert alert-info\" role=\"alert\">\n  <strong>Note: </strong> \nYou can reference any row, regardless of its Row Index. The system will automatically determine the correct calculation order based on dependencies.\n</div>",
    "fieldname": "formula",
    "fieldtype": "Code",
    "label": "Formula",
@@ -156,12 +157,18 @@
    "fieldname": "hide_from_report",
    "fieldtype": "Check",
    "label": "Hide from Report"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_only_node_header",
+   "fieldtype": "Check",
+   "label": "Show Only Node Header"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-02-16 13:16:20.282999",
+ "modified": "2026-01-13 16:59:58.436955",
  "modified_by": "Administrator",
  "module": "Financial Report Builder",
  "name": "Report Schema",
@@ -183,6 +190,7 @@
   }
  ],
  "quick_entry": 1,
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
