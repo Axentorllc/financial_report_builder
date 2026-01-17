@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict
-
+from frappe.desk.query_report import run
 import frappe
 
 
@@ -52,36 +52,41 @@ def parse_formula(formula: str) -> list:
     return rows
 
 
+def execute_report(report_source, data_dict, report_executions):
+    """Execute a single report and add result to report_executions dict"""
+    if report_source and report_source not in report_executions:
+        try:
+            result = run(
+                report_name=report_source,
+                filters=data_dict,
+                ignore_prepared_report=True
+            )
+            report_executions[report_source] = result.get("result", [])
+        except Exception:
+            frappe.log_error(
+                f"Error fetching or executing report {report_source}",
+                frappe.get_traceback()
+            )
+
+
 def get_report_executions(data_dict, report_sources):
+    """Execute all reports in report_sources and return results dict"""
     report_executions = {}
 
     for report_source in report_sources:
-        try:
-            execute_function = frappe.get_doc("Report", report_source)
-            columns, res_data = execute_function.get_data(data_dict)
-
-            report_executions[report_source] = res_data
-        except Exception as e:
-            print(f"Error fetching or executing report {report_source}: {e}")
+        execute_report(report_source, data_dict, report_executions)
 
     return report_executions
-
-
-def execute_report(report_source, data_dict, report_executions):
-    if report_source not in report_executions:
-        try:
-            execute_function = frappe.get_doc("Report", report_source)
-            columns, res_data = execute_function.get_data(data_dict)
-
-            report_executions[report_source] = res_data
-        except Exception as e:
-            print(f"Error fetching or executing report {report_source}: {e}")
 
 
 def bulid_row_based_on_accounts(node, data, report_executions, period_list):
     accounts_list = {row_account.account for row_account in node.accounts}
 
     rows = {"account": node.label, "indent": 0, "label": node.label, "node_label": node.label}
+
+    # Execute the report if it hasn't been executed yet
+    if node.report_source not in report_executions:
+        execute_report(node.report_source, {}, report_executions)
 
     res_data = report_executions[node.report_source]
 
@@ -279,7 +284,7 @@ def topological_sort(nodes: list) -> list:
     return sorted_nodes
 
 
-def execute_nodes_in_dependency_order(nodes: list, report_executions: dict, period_list: list) -> list:
+def execute_nodes_in_dependency_order(nodes: list, report_executions: dict, period_list: list, filters: dict = None) -> list:
     """
     Main execution function: Build all nodes in dependency order.
 
@@ -289,11 +294,13 @@ def execute_nodes_in_dependency_order(nodes: list, report_executions: dict, peri
         nodes: List of Report Schema nodes
         report_executions: Dictionary of executed reports {report_name: [rows]}
         period_list: List of period objects with .key attribute
+        filters: Optional filters dict for custom methods
 
     Returns:
         List of data rows (in dependency order, not display order)
     """
     data = []
+    filters = filters or {}
 
     # Step 1: Determine execution order based on dependencies
     sorted_nodes = topological_sort(nodes)
@@ -311,13 +318,13 @@ def execute_nodes_in_dependency_order(nodes: list, report_executions: dict, peri
                 "account_name": node.label,
                 "label": node.label,
                 "indent": 0,
-                "node_label": node.label  
+                "node_label": node.label
             })
             data.append(row)
 
         elif node.use_custom_method:
             # Custom method: user-defined logic
-            frappe.get_attr(node.method)(data, node, period_list, report_executions)
+            frappe.get_attr(node.method)(data, filters, node, period_list, report_executions)
 
     return data
 
